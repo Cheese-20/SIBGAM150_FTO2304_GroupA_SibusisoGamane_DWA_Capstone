@@ -1,0 +1,8 @@
+.Grid-Cont{
+    display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Pod-Grid{
+ padding: 20px;
+}
