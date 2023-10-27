@@ -1,4 +1,7 @@
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, FormControl,
+    InputLabel,
+    Select,
+    MenuItem, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PodcastCard from "/src/components/Preview.jsx";
@@ -41,6 +44,22 @@ function Search() {
     FetchSearch();
   }, []);
 
+  const handleSort = (Type) => {
+    if (Type == "Asc") {
+      setContent(
+        content.sort((show1, show2) =>
+          show1.title < show2.title ? 1 : show1.title > show2.title ? -1 : 0
+        )
+      );
+    } else {
+      setContent(
+        content.sort((show1, show2) =>
+          show1.title > show2.title ? 1 : show1.title < show2.title ? -1 : 0
+        )
+      );
+    }
+  };
+
   return (
     <>
       <div style={{ display: "flex", margin: "15px 0" }}>
@@ -53,6 +72,26 @@ function Search() {
           value={search}
         />
       </div>
+
+      <div>
+      <FormControl>
+        <InputLabel id="placeholder-select-label">Select an option</InputLabel>
+        <Select
+          labelId="placeholder-select-label"
+          id="placeholder-select"
+          value={search}
+          onChange={handleSearch}
+          displayEmpty
+        >
+          <MenuItem value="" disabled>
+            Sort by
+          </MenuItem>
+          <MenuItem value="Asc">A-Z</MenuItem>
+          <MenuItem value="Desc">Z-A</MenuItem>
+        </Select>
+      </FormControl>
+      {/* {renderResult()} */}
+    </div>
 
       <div>
         <Box className="Grid-Cont">
