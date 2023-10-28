@@ -34,11 +34,13 @@ function Home() {
     <>
       <Typography sx={{ m: 1 }}>Trending</Typography>
       <Box sx={{ display: "flex", overflowX: "auto" }} className="pod-data">
-        { content &&
+        { TrendingArray &&
           TrendingArray.map((item) => {
             return (
               <PodcastCard
                 key={item.id}
+                id={item.id}
+                genres={item.genres}
                 pic={item.image}
                 title={item.title}
                 season={item.seasons}

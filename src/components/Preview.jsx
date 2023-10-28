@@ -1,11 +1,13 @@
 import {  Card, CardMedia, CardContent, Typography } from "@mui/material";
 import "./podcast.css";
 import  returnDate  from "../Functions/BasicFx.js";
+import ShowInfo from "./PodcastInfo.jsx";
 
 // *Podcast card
 export default function PodcastBlock(data) {
   return (
     <>
+    <ShowInfo ShowId={data.id} ShowPic={data.pic} ShowGenre={data.genres} >
       <Card className="Podcast-Card" sx={{m:0.5}}>
       <CardMedia
         component="img"
@@ -27,6 +29,7 @@ export default function PodcastBlock(data) {
         </Typography>
       </CardContent>
     </Card>
+    </ShowInfo>
     </>
   );
 }

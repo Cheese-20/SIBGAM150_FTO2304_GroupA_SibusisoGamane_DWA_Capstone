@@ -26,7 +26,7 @@ function Search() {
   const result = fuse.search(search);
 
   function handleSearch(event) {
-    const  value  = event.target.value;
+    const value = event.target.value;
     setSearch(value);
     setSearch(search ? result.map((item) => item.item) : content);
   }
@@ -99,6 +99,15 @@ function Search() {
     //Loading state
   };
 
+  // ShowMore Button
+  const [VisibleShows, setVisibleShows] = useState(21);
+
+  const AddMore = () => {
+    setVisibleShows(VisibleShows + 9);
+  };
+
+  const ViewedData = content.slice(0, VisibleShows);
+
   useEffect(() => {
     FetchSearch();
     console.log("render");
@@ -156,10 +165,12 @@ function Search() {
       <div>
         <Box className="Grid-Cont">
           {content &&
-            content.map((item) => {
+            ViewedData.map((item) => {
               return (
                 <PodcastCard
                   key={item.id}
+                  ShowId={item.id}
+                  genres={item.genres}
                   pic={item.image}
                   title={item.title}
                   season={item.seasons}
@@ -170,6 +181,9 @@ function Search() {
             })}
         </Box>
       </div>
+      {VisibleShows < content.length && (
+        <button onClick={AddMore}> Show More </button>
+      )}
     </>
   );
 }
