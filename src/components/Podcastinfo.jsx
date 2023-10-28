@@ -21,7 +21,12 @@ const style = {
   p: 4,
 };
 
-export default function ShowInfo({ children, ShowId, ShowPic, ShowGenre }) {
+export default function ShowInfo({
+  children,
+  ShowId,
+  ShowPic,
+  ShowGenre,
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -39,6 +44,7 @@ export default function ShowInfo({ children, ShowId, ShowPic, ShowGenre }) {
   };
 
   const [ShowContent, setShowContent] = React.useState([]);
+
   const FetchShows = async () => {
     try {
       const { data } = await axios.get(
@@ -54,10 +60,10 @@ export default function ShowInfo({ children, ShowId, ShowPic, ShowGenre }) {
     }
   };
 
-  const ShowEpisodes = [];
+  const Episode=[]
   const HandleClick = (val) => {
     console.log(val);
-    ShowEpisodes.push(ShowContent.seasons[val - 1].episodes);
+    Episode.push(ShowContent.seasons[val]);
   };
 
   React.useEffect(() => {
@@ -117,13 +123,13 @@ export default function ShowInfo({ children, ShowId, ShowPic, ShowGenre }) {
                 : null}
             </Stack>
           </Box>
-
+          {/*Episodes display*/}
           <Typography variant="h6" component="h2" sx={{ pt: 2 }}>
             Episodes:
           </Typography>
           <Box>
-            {!ShowEpisodes &&
-              ShowEpisodes.map((item) => {
+            {Episode &&
+              Episode.map((item) => {
                 return (
                   <Card key={item.id}>
                     <CardMedia
@@ -139,10 +145,7 @@ export default function ShowInfo({ children, ShowId, ShowPic, ShowGenre }) {
                         {item.episode}
                       </Typography>
                       <audio controls>
-                        <source
-                          src={item.file}
-                          type="audio/mpeg"
-                        />
+                        <source src={item.file} type="audio/mpeg" />
                         Your browser does not support the audio element.
                       </audio>
                     </CardContent>

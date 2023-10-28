@@ -7,7 +7,7 @@ import ShowInfo from "./PodcastInfo.jsx";
 export default function PodcastBlock(data) {
   return (
     <>
-    <ShowInfo ShowId={data.id} ShowPic={data.pic} ShowGenre={data.genres} >
+    <ShowInfo  ShowPic={data.pic} ShowId={data.ShowId} ShowGenre={data.genres} >
       <Card className="Podcast-Card" sx={{m:0.5}}>
       <CardMedia
         component="img"
