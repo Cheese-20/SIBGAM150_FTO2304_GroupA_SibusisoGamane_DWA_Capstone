@@ -1,4 +1,14 @@
+import {useState,useEffect} from 'react'
+
 function Profile(){
+    const [FetchError,setFetchError] = useState(null)
+    const [data,setData] =useState(null);
+
+    useEffect ( ()=>{
+        const FetchData = async ()=>{}
+        
+    })
+
     return (
         <>
         <div>

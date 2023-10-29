@@ -1,5 +1,5 @@
 import "./home.css";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Stack, Chip } from "@mui/material";
 import React from "react";
 import PodcastCard from "/src/components/Preview.jsx";
 import axios from "axios";
@@ -20,49 +20,91 @@ function Home() {
     }
   };
 
+  const genreTypes = [
+    "Personal Growth",
+    "True Crime and Investigative Journalism",
+    "History",
+    "Comedy",
+    "Entertainment",
+    "Business",
+    "Fiction",
+    "News",
+    "Kids and Family",
+  ];
+
   React.useEffect(() => {
     FetchSearch();
   }, []);
+
+  const Genre = [];
+
+  const HandleClick = (index) => {
+    content.map((item) => {
+      // console.log(item)
+      item.genres.map((value) => {
+        if (value === index) {
+          Genre.push(item);
+        }
+      });
+    });
+  };
 
   const TrendingArray = [];
 
   for (let i = 0; i <= 10; i++) {
     const random = Math.floor(Math.random() * content.length);
-    TrendingArray.push(content[random]);
+    if (content[random]) {
+      TrendingArray.push(content[random]);
+    }
   }
+
   return (
     <>
       <Typography sx={{ m: 1 }}>Trending</Typography>
       <Box sx={{ display: "flex", overflowX: "auto" }} className="pod-data">
-        { TrendingArray &&
-          TrendingArray.map((item) => {
-            return (
-              <PodcastCard
-                key={item.id}
-                id={item.id}
-                genres={item.genres}
-                pic={item.image}
-                title={item.title}
-                season={item.seasons}
-                update={item.updated}
-              />
-            );
-          })}
+        {TrendingArray.map((item) => (
+          <PodcastCard
+            key={item.id}
+            ShowId={item.id}
+            genres={item.genres}
+            pic={item.image}
+            title={item.title}
+            season={item.seasons}
+            update={item.updated}
+          />
+        ))}
       </Box>
 
-      <Typography sx={{ m: 1 }}>Recently played</Typography>
-      <PodcastCard />
-
       <Typography sx={{ m: 1 }}>All Shows</Typography>
+      <Box>
+        <Stack direction="row" spacing={1}>
+          {genreTypes !== ""
+            ? genreTypes.map((item, index) => {
+                return (
+                  <Chip
+                    label={item}
+                    key={item.id}
+                    onClick={() => HandleClick(index)}
+                  />
+                );
+              })
+            : null}
+        </Stack>
+      </Box>
 
-      <Box sx={{ display: "flex", overflowX: "auto" }}>
-        {/* <Genres
-          selectedGenres={selectedGenres}
-          genres={genres}
-          setgenres={setGenres}
-          setselectedGenres={setSelectedGenres}
-        /> */}
-        {/* <View /> */}
+      <Box sx={{ display: "flex" }}>
+        {Genre &&
+          Genre.map((item) => (
+            <PodcastCard
+              key={item.id}
+              ShowId={item.id}
+              genres={item.genres}
+              pic={item.image}
+              title={item.title}
+              season={item.seasons}
+              update={item.updated}
+            />
+          ))}
       </Box>
     </>
   );

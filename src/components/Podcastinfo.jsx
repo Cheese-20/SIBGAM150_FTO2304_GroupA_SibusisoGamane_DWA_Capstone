@@ -14,19 +14,14 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "85%",
-  height: "90%",
+  height: "100%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
-export default function ShowInfo({
-  children,
-  ShowId,
-  ShowPic,
-  ShowGenre,
-}) {
+export default function ShowInfo({ children, ShowId, ShowPic, ShowGenre }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -60,10 +55,11 @@ export default function ShowInfo({
     }
   };
 
-  const Episode=[]
+  const [Episode, setEpisode] = React.useState();
   const HandleClick = (val) => {
     console.log(val);
-    Episode.push(ShowContent.seasons[val]);
+    setEpisode(ShowContent.seasons[val - 1]).episodes;
+    // setShowContent(ShowContent.seasons[val-1]);
   };
 
   React.useEffect(() => {
@@ -99,9 +95,13 @@ export default function ShowInfo({
               Genre:
             </Typography>
             <Box sx={{ p: 2 }}>
-              {ShowGenre.map((index) => {
-                return <div key={index}>{genreTypes[index - 1]}, </div>;
-              })}
+              {ShowGenre.length > 0 ? (
+                ShowGenre.map((index) => {
+                  return <div key={index}>{genreTypes[index - 1]}, </div>;
+                })
+              ) : (
+                <div>No genre available</div>
+              )}
             </Box>
           </Box>
 
@@ -110,7 +110,7 @@ export default function ShowInfo({
           </Typography>
           <Box>
             <Stack direction="row" spacing={1}>
-              {ShowContent
+              {ShowContent.length !== 0
                 ? ShowContent.seasons.map((item) => {
                     return (
                       <Chip
@@ -123,36 +123,37 @@ export default function ShowInfo({
                 : null}
             </Stack>
           </Box>
+
           {/*Episodes display*/}
           <Typography variant="h6" component="h2" sx={{ pt: 2 }}>
             Episodes:
           </Typography>
           <Box>
             {Episode &&
-              Episode.map((item) => {
-                return (
-                  <Card key={item.id}>
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={item.image}
-                    />
-                    <CardContent>
-                      <Typography variant="h5" component="div">
-                        {item.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {item.episode}
-                      </Typography>
-                      <audio controls>
-                        <source src={item.file} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                      </audio>
-                    </CardContent>
-                  </Card>
-                );
+              Episode.episodes.map((item) => {
+                if (item && item.episode) {
+                  return (
+                    <Card key={item.id}>
+                      <CardContent>
+                        <Typography variant="h5" component="div">
+                          {item.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                         Episode {item.episode}
+                        </Typography>
+                        <audio controls>
+                          <source src={item.file} type="audio/mpeg" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      </CardContent>
+                    </Card>
+                  );
+                } else {
+                  return <div key='item'>element not there</div>; // or handle the case when 'episodes' is undefined
+                }
               })}
           </Box>
+          {console.log(Episode)}
         </Box>
       </Modal>
     </div>
