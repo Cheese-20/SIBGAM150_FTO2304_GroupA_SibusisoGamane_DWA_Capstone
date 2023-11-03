@@ -1,13 +1,17 @@
 import {  Card, CardMedia, CardContent, Typography } from "@mui/material";
 import "./podcast.css";
 import  returnDate  from "../Functions/BasicFx.js";
-import ShowInfo from "./PodcastInfo.jsx";
+import { Link } from "react-router-dom";
+
 
 // *Podcast card
 export default function PodcastBlock(data) {
+  const epID = {ID : data.ShowId, Pic : data.pic, genre: data.genres}
   return (
+
+    // ShowPic={data.pic} ShowId={data.ShowId} ShowGenre={data.genres}
     <>
-    <ShowInfo  ShowPic={data.pic} ShowId={data.ShowId} ShowGenre={data.genres} >
+    <Link to={`/episodes/${epID.ID}/${epID.genre.join(',')}`} >
       <Card className="Podcast-Card" sx={{m:0.5}}>
       <CardMedia
         component="img"
@@ -29,7 +33,7 @@ export default function PodcastBlock(data) {
         </Typography>
       </CardContent>
     </Card>
-    </ShowInfo>
+    </Link>
     </>
   );
 }

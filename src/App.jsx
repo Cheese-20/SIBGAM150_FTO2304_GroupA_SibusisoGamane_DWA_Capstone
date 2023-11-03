@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Search from "./Pages/Search/Search";
 import Home from "./Pages/Home/Home";
 import Profile from "./Pages/Profile/Profile";
+import Episodes from "./Pages/Episodes/episodes";
 
 import "./App.css";
 
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={ <Home /> } />
             <Route path="/search" element={ <Search/> } />
             <Route path="/profile" element={ <Profile/> } />
+            <Route path="/episodes/:id/:genre" element={ <Episodes/> } />
           </Routes>
         </Container>
      

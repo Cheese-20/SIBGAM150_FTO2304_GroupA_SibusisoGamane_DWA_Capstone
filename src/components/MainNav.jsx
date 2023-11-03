@@ -34,6 +34,9 @@ export default function NavigationBar() {
 
           <Tab label="Profile" />
         </Link>
+
+
+
       </Tabs>
     </nav>
   );

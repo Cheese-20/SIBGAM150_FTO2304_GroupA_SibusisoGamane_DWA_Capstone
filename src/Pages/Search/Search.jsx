@@ -165,10 +165,10 @@ function Search() {
       <div>
         <Box className="Grid-Cont">
           {content &&
-            ViewedData.map((item) => {
+            ViewedData.map((item,index) => {
               return (
                 <PodcastCard
-                  key={item.id}
+                  key={index}
                   ShowId={item.id}
                   genres={item.genres}
                   pic={item.image}

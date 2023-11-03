@@ -92,19 +92,19 @@ function Home() {
         </Stack>
       </Box>
 
-      <Box sx={{ display: "flex" }}>
-        {Genre &&
-          Genre.map((item) => (
+      <Box sx={{  }}>
+        { Genre.map((item) => {
+          return (
             <PodcastCard
-              key={item.id}
-              ShowId={item.id}
-              genres={item.genres}
-              pic={item.image}
-              title={item.title}
-              season={item.seasons}
-              update={item.updated}
+            key={item.id}
+            ShowId={item.id}
+            genres={item.genres}
+            pic={item.image}
+            title={item.title}
+            season={item.seasons}
+            update={item.updated}
             />
-          ))}
+          )})}
       </Box>
     </>
   );

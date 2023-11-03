@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
-import { Card, CardMedia, CardContent } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 
 const style = {
   position: "absolute",
