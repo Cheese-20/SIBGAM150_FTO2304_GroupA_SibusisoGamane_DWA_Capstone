@@ -4,23 +4,8 @@ import React from "react";
 import PodcastCard from "/src/components/Preview.jsx";
 import axios from "axios";
 
-//database
-import { createClient } from "@supabase/supabase-js";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useNavigate } from "react-router-dom";
-
-const supabase = createClient(
-  "https://kedoblxacqfbaufcpgoi.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlZG9ibHhhY3FmYmF1ZmNwZ29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg1MzI1OTEsImV4cCI6MjAxNDEwODU5MX0.xwmaTnFfzRnHG_Tk3dfrOGpDJOEUKOp7Fhj_thEqmbI"
-);
-
-
-
 function Home() {
   const [content, setContent] = React.useState([]);
-  // const [user, setUser] = React.useState({});
-  // const navigate = useNavigate()
 
   const FetchSearch = async () => {
     try {
@@ -35,16 +20,7 @@ function Home() {
     }
   };
 
-  //getUser info
-
-  // const FetchUser = async() =>{
-  //   await supabase.auth.getUser().then((value)=>{
-  //     if(value.data?.user){
-  //       console.log(value.data.user)
-  //       setUser(value.data.user)
-  //     }
-  //   })
-  // }
+ 
 
   const genreTypes = [
     "Personal Growth",
@@ -60,18 +36,19 @@ function Home() {
 
   React.useEffect(() => {
     FetchSearch();
-    // FetchUser();
   }, []);
 
   const [GenreArr, setGenre] = React.useState([]);
   const HandleClick = (valIndx) => {
-    content.map((item) => {
+    content.forEach((item) => {
       const genreItem = item.genres;
-      genreItem.map((value) => {
-        if (value === valIndx) {
-          setGenre(item);
-        }
-      });
+      if (Array.isArray(genreItem)) {
+        genreItem.forEach((value) => {
+          if (value-1 === valIndx) {
+            setGenre((prevGenreArr) => [...prevGenreArr, item]);
+          }
+        });
+      }
     });
   };
 
@@ -119,7 +96,7 @@ function Home() {
       </Box>
 
       <Box>
-        {GenreArr &&
+        {Array.isArray(GenreArr) &&
           GenreArr.map((item, index) => {
             if (index>=0) {
               return (

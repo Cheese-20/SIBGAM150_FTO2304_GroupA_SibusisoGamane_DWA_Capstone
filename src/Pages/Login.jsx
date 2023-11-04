@@ -12,7 +12,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   supabase.auth.onAuthStateChange( async(event) => {
-    if (event !== "SIGNED_OUT") {
+    if (event === "SIGNED_IN") {
       //GO TO HOME
       navigate("/home");
       console.log("in");
@@ -27,7 +27,7 @@ export default function Login() {
       <Auth
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
-        theme="dark"
+        providers={["google"]}
       />
     </>
   );

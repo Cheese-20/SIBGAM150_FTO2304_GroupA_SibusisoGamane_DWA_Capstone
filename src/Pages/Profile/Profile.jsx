@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 //database
 import { createClient } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
+import { Info, InfoRounded } from "@mui/icons-material";
 
 const supabase = createClient(
   "https://kedoblxacqfbaufcpgoi.supabase.co",
@@ -10,37 +11,41 @@ const supabase = createClient(
 );
 
 function Profile() {
-  //   const [fetchError, setFetchError] = useState(null);
+  // const [fetchError, setFetchError] = useState(null);
   const [user, setUser] = useState({});
-
-  //   useEffect(() => {
-  //     const fetchUser = async () => {
-  //       const { data, error } = await supabase.from("Podcast").select();
-
-  //       if (error) {
-  //         setFetchError("Data is not there");
-  //         setUser(null);
-  //         console.log(error);
-  //       }
-
-  //       if (data) {
-  //         setUser(data);
-  //         setFetchError(null);
-  //       }
-  //     };
-
-  //     fetchUser();
-  //   }, []);
+  const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
+    //user info after login
     async function getUserData() {
       await supabase.auth.getUser().then((value) => {
         if (value.data?.user) {
-          console.log(value.data.user);
           setUser(value.data.user);
         }
       });
     }
+
+    async function userData(){
+      try {
+        const { data, error } = await supabase
+          .from('Podcast')
+          .select()
+          .eq('email', user.email);
+    
+        if (error) {
+          console.error(error);
+          return;
+        }
+    
+        setUserInfo(data);
+        console.log(data);
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    userData();
     getUserData();
   }, []);
 
@@ -51,27 +56,32 @@ function Profile() {
     navigate("/");
   };
 
+ 
+  
+
   return (
     <>
       <div>
         {Object.keys(user).length !== 0 ? (
           <>
-            <p>hello</p>
+            <h2>Welcome {userInfo.length}</h2>
+            
             <button onClick={() => signOutUser()}>sign out </button>
-            {console.log(user)}
           </>
         ) : (
-            <>
+          <>
+            <h1>Nothing to see here user is not logged in</h1>
 
-          <h1>Nothing to see here user is not logged in</h1>
-
-            <button onClick={()=>{navigate("/")}}>Login</button>
+            <button
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Login
+            </button>
           </>
-
         )}
       </div>
-
-     
     </>
   );
 }
