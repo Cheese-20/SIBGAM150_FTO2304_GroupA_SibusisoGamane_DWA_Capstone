@@ -20,7 +20,7 @@ export default function NavigationBar() {
          position:"fixed"
       }
     }}>
-        <Link to="/">
+        <Link to="/home">
           {" "}
           <Tab label="Home" />
         </Link>
