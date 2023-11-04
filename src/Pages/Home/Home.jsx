@@ -20,8 +20,6 @@ function Home() {
     }
   };
 
- 
-
   const genreTypes = [
     "Personal Growth",
     "True Crime and Investigative Journalism",

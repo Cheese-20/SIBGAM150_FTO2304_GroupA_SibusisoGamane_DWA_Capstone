@@ -10,8 +10,6 @@ import { Card, CardContent, CardMedia } from "@mui/material";
 export default function Episodes() {
   const { id, genre } = useParams();
   const genres = genre.split(",");
-  console.log(genre);
-
   const genreTypes = {
     0: "Personal Growth",
     1: "True Crime and Investigative Journalism",
@@ -45,7 +43,6 @@ export default function Episodes() {
   const HandleClick = (val) => {
     console.log(val);
     setEpisode(ShowContent.seasons[val - 1]).episodes;
-    // setShowContent(ShowContent.seasons[val-1]);
   };
 
   React.useEffect(() => {
@@ -134,7 +131,6 @@ export default function Episodes() {
               }
             })}
         </Box>
-        {console.log(Episode)}
       </Box>
     </div>
   );
