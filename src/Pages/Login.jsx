@@ -15,7 +15,6 @@ export default function Login() {
     if (event === "SIGNED_IN") {
       //GO TO HOME
       navigate("/home");
-      console.log("in");
     } else {
       //STAY AT LOGIN PAGE
       navigate("/");
