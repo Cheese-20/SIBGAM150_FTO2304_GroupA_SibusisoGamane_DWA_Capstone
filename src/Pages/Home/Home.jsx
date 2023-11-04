@@ -7,16 +7,22 @@ import axios from "axios";
 function Home() {
   const [content, setContent] = React.useState([]);
 
+  //if true show loading else don't show
+  const [loading, setLoading] = React.useState(true);
+
   const FetchSearch = async () => {
     try {
       const { data } = await axios.get("https://podcast-api.netlify.app/shows");
       if (data) {
         setContent(data);
+        setLoading(false);
       } else {
         console.log("Invalid response structure");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false);
     }
   };
 
@@ -42,7 +48,7 @@ function Home() {
       const genreItem = item.genres;
       if (Array.isArray(genreItem)) {
         genreItem.forEach((value) => {
-          if (value-1 === valIndx) {
+          if (value - 1 === valIndx) {
             setGenre((prevGenreArr) => [...prevGenreArr, item]);
           }
         });
@@ -62,19 +68,23 @@ function Home() {
   return (
     <>
       <Typography sx={{ m: 1 }}>Trending</Typography>
-      <Box sx={{ display: "flex", overflowX: "auto" }} className="pod-data">
-        {TrendingArray.map((item, index) => (
-          <PodcastCard
-            key={index}
-            ShowId={item.id}
-            genres={item.genres}
-            pic={item.image}
-            title={item.title}
-            season={item.seasons}
-            update={item.updated}
-          />
-        ))}
-      </Box>
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        <Box sx={{ display: "flex", overflowX: "auto" }} className="pod-data">
+          {TrendingArray.map((item, index) => (
+            <PodcastCard
+              key={index}
+              ShowId={item.id}
+              genres={item.genres}
+              pic={item.image}
+              title={item.title}
+              season={item.seasons}
+              update={item.updated}
+            />
+          ))}
+        </Box>
+      )}
 
       <Typography sx={{ m: 1 }}>All Shows</Typography>
       <Box>
@@ -93,27 +103,31 @@ function Home() {
         </Stack>
       </Box>
 
-      <Box>
-        {Array.isArray(GenreArr) &&
-          GenreArr.map((item, index) => {
-            if (index>=0) {
-              return (
-                <PodcastCard
-                  key={index}
-                  ShowId={item.id}
-                  genres={item.genres}
-                  pic={item.image}
-                  title={item.title}
-                  season={item.seasons}
-                  update={item.updated}
-                />
-              );
-            } else {
-              return <div key="item">element not there</div>;
-            }
-          })}
-        {console.log(GenreArr)}
-      </Box>
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        <Box>
+          {Array.isArray(GenreArr) &&
+            GenreArr.map((item, index) => {
+              if (index >= 0) {
+                return (
+                  <PodcastCard
+                    key={index}
+                    ShowId={item.id}
+                    genres={item.genres}
+                    pic={item.image}
+                    title={item.title}
+                    season={item.seasons}
+                    update={item.updated}
+                  />
+                );
+              } else {
+                return <div key="item">element not there</div>;
+              }
+            })}
+          {console.log(GenreArr)}
+        </Box>
+      )}
     </>
   );
 }

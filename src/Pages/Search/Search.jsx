@@ -17,6 +17,7 @@ function Search() {
   const [content, setContent] = useState([]);
   const [sortVal, setSort] = useState("");
   const [Dates, setDates] = useState("");
+  const [load, setLoad] = useState(true);
 
   //! fuzzy search
   const fuse = new Fuse(content, {
@@ -89,11 +90,14 @@ function Search() {
       if (data) {
         console.log(data);
         setContent(data);
+        setLoad(false);
       } else {
         console.log("Invalid response structure");
+        setLoad(false);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoad(false);
     }
 
     //Loading state
@@ -163,23 +167,27 @@ function Search() {
       </div>
 
       <div>
-        <Box className="Grid-Cont">
-          {content &&
-            ViewedData.map((item,index) => {
-              return (
-                <PodcastCard
-                  key={index}
-                  ShowId={item.id}
-                  genres={item.genres}
-                  pic={item.image}
-                  title={item.title}
-                  season={item.seasons}
-                  update={item.updated}
-                  className="Pod-Grid"
-                />
-              );
-            })}
-        </Box>
+        {load ? (
+          <p>Loading...</p>
+        ) : (
+          <Box className="Grid-Cont">
+            {content &&
+              ViewedData.map((item, index) => {
+                return (
+                  <PodcastCard
+                    key={index}
+                    ShowId={item.id}
+                    genres={item.genres}
+                    pic={item.image}
+                    title={item.title}
+                    season={item.seasons}
+                    update={item.updated}
+                    className="Pod-Grid"
+                  />
+                );
+              })}
+          </Box>
+        )}
       </div>
       {VisibleShows < content.length && (
         <button onClick={AddMore}> Show More </button>
