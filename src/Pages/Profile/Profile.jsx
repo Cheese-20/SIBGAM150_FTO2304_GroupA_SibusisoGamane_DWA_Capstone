@@ -3,12 +3,8 @@ import { useState, useEffect } from "react";
 //database
 import { createClient } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
-import { Info, InfoRounded } from "@mui/icons-material";
-
-const supabase = createClient(
-  "https://kedoblxacqfbaufcpgoi.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlZG9ibHhhY3FmYmF1ZmNwZ29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg1MzI1OTEsImV4cCI6MjAxNDEwODU5MX0.xwmaTnFfzRnHG_Tk3dfrOGpDJOEUKOp7Fhj_thEqmbI"
-);
+import supabase from "../../Functions/supabase";
+import { Typography } from "@mui/material";
 
 function Profile() {
   // const [fetchError, setFetchError] = useState(null);
@@ -25,29 +21,26 @@ function Profile() {
       });
     }
 
-    async function userData(){
-      try {
-        const { data, error } = await supabase
-          .from('Podcast')
-          .select()
-          .eq('email', user.email);
-    
-        if (error) {
-          console.error(error);
-          return;
-        }
-    
+    getUserData();
+    userData();
+  }, []);
+
+  async function userData() {
+    try {
+      const { data, error } = await supabase
+        .from("PodCast")
+        .select()
+        .eq("email", user.email);
+
+      if (error) throw error;
+      if (data !== null) {
         setUserInfo(data);
         console.log(data);
-        
-      } catch (error) {
-        console.error(error);
       }
+    } catch (error) {
+      console.error(error);
     }
-
-    userData();
-    getUserData();
-  }, []);
+  }
 
   const navigate = useNavigate();
 
@@ -56,16 +49,15 @@ function Profile() {
     navigate("/");
   };
 
- 
-  
-
   return (
     <>
       <div>
         {Object.keys(user).length !== 0 ? (
           <>
-            <h2>Welcome {userInfo.length}</h2>
-            
+            <h2>Welcome {userInfo.map((item) => item.name)}</h2>
+            {console.log(userInfo)}
+
+            <Typography>Edit Details</Typography>
             <button onClick={() => signOutUser()}>sign out </button>
           </>
         ) : (

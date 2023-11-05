@@ -29,7 +29,7 @@ function Search() {
   function handleSearch(event) {
     const value = event.target.value;
     setSearch(value);
-    setSearch(search ? result.map((item) => item.item) : content);
+   setContent(search !== '' ? result.map((item) => item.item) : content);
   }
 
   //Sorting the podcast

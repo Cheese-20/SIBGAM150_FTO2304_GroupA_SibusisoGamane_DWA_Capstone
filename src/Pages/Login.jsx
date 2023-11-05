@@ -1,25 +1,21 @@
-import { createClient } from "@supabase/supabase-js";
+import supabase from "../Functions/supabase";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useNavigate } from "react-router-dom";
 
-const supabase = createClient(
-  "https://kedoblxacqfbaufcpgoi.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlZG9ibHhhY3FmYmF1ZmNwZ29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg1MzI1OTEsImV4cCI6MjAxNDEwODU5MX0.xwmaTnFfzRnHG_Tk3dfrOGpDJOEUKOp7Fhj_thEqmbI"
-);
 
 export default function Login() {
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
-  supabase.auth.onAuthStateChange( async(event) => {
-    if (event === "SIGNED_IN") {
-      //GO TO HOME
-      navigate("/home");
-    } else {
-      //STAY AT LOGIN PAGE
-      navigate("/");
-    }
-  });
+supabase.auth.onAuthStateChange( async(event) => {
+  if (event === "SIGNED_IN") {
+    //GO TO HOME
+    navigate("/home");
+  } else {
+    //STAY AT LOGIN PAGE
+    navigate("/");
+  }
+});
 
   return (
     <>
@@ -31,3 +27,102 @@ export default function Login() {
     </>
   );
 }
+
+// import { Box, TextField, Button } from "@mui/material";
+// import { useState,useEffect } from "react";
+// export default function Login() {
+//   const [form, setForm] = useState("Login");
+//   const [name,setName] =useState("");
+//   const [Email,setEmail] =useState("");
+//   const [surname,setSurname] =useState("");
+//   const [Password,setPassword] =useState("");
+// const navigate = useNavigate();
+
+
+//   useEffect (() =>{
+//     // getInfo();
+//   },[])
+
+
+//   return (
+//     <>
+//       {form === "Login" ? (
+//         // Login form
+//         <Box
+//           sx={{
+//             display: "flex",
+//             flexDirection: "column",
+//             maxWidth: 600,
+//             alignItems: "center",
+//             justifyContent: "center",
+//             m: "auto",
+//             mt: 5,
+//           }}
+//         >
+//           <TextField
+//             variant="outlined"
+//             placeholder="Email"
+//             type="email"
+//             margin="normal"
+//             onChange={(e)=>{setEmail(e.target.value)}}
+//           ></TextField>
+//           <TextField
+//             variant="outlined"
+//             placeholder="Password"
+//             type="password"
+//             margin="normal"
+//             onChange={(e)=>{setPassword(e.target.value)}}
+//           ></TextField>
+//           <Button variant="contained" onClick={()=>handleLogin(Email,Password)} >Login</Button>
+//           <Button onClick={()=>setForm('SignUp')}>No account? SignUp</Button>
+//         </Box>
+//       ) : (
+//         // signUp form
+//         <Box>
+//           <Box
+//           sx={{
+//             display: "flex",
+//             flexDirection: "column",
+//             maxWidth: 600,
+//             alignItems: "center",
+//             justifyContent: "center",
+//             m: "auto",
+//             mt: 5,
+//           }}
+//         >
+//           <TextField
+//             variant="outlined"
+//             placeholder="Name"
+//             type="text"
+//             margin="normal"
+//             onChange={(e)=>{setName(e.target.value)}}
+//           ></TextField>
+//           <TextField
+//             variant="outlined"
+//             placeholder="Surname"
+//             type="text"
+//             margin="normal"
+//             onChange={(e)=>{setSurname(e.target.value)}}
+//           ></TextField>
+//           <TextField
+//             variant="outlined"
+//             placeholder="Email"
+//             type="email"
+//             margin="normal"
+//             onChange={(e)=>{setEmail(e.target.value)}}
+//           ></TextField>
+//           <TextField
+//             variant="outlined"
+//             placeholder="Password"
+//             type="password"
+//             margin="normal"
+//             onChange={(e)=>{setPassword(e.target.value)}}
+//           ></TextField>
+//           <Button variant="contained" >SignUp</Button>
+//           <Button onClick={()=>setForm('Login')}> Have an account? Login</Button>
+//         </Box>
+//         </Box>
+//       )}
+//     </>
+//   );
+// }
