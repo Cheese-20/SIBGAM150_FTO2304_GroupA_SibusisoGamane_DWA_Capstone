@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
+import supabase from "../../Functions/supabase";
 import { Card, CardContent, CardMedia } from "@mui/material";
 
 export default function Episodes() {
@@ -45,6 +46,18 @@ export default function Episodes() {
     setEpisode(ShowContent.seasons[val - 1]).episodes;
   };
 
+  const HandleFavs = async (index) => {
+    try {
+      const { data, error } = await supabase.from("PodCast").update({
+        favourites: Episode[index],
+      });
+
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   React.useEffect(() => {
     FetchShows();
   }, []);
@@ -78,7 +91,7 @@ export default function Episodes() {
         <Typography variant="h6" component="h2">
           Seasons:
         </Typography>
-        <Box sx={{display:'flex'}}>
+        <Box sx={{ display: "flex" }}>
           <Stack direction="row" spacing={1}>
             {ShowContent.length !== 0
               ? ShowContent.seasons.map((item) => {
@@ -104,30 +117,33 @@ export default function Episodes() {
               if (item && item.episode) {
                 return (
                   <Card key={item.id}>
-                     <Box sx={{display:'flex'}}>
-                    <CardMedia
-                      sx={{ height: 140, width: 151}}
-                      image={Episode.image}
-                      title={item.title}
-                    />
-                   
-                    <CardContent>
-                      <Typography variant="h5" component="div">
-                        {item.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Episode {item.episode}
-                      </Typography>
-                      <audio controls>
-                        <source src={item.file} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                      </audio>
-                    </CardContent>
+                    <Box sx={{ display: "flex" }}>
+                      <CardMedia
+                        sx={{ height: 140, width: 151 }}
+                        image={Episode.image}
+                        title={item.title}
+                      />
+
+                      <CardContent>
+                        <Typography variant="h5" component="div">
+                          {item.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Episode {item.episode}
+                        </Typography>
+                        <audio controls>
+                          <source src={item.file} type="audio/mpeg" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      </CardContent>
+                      <button onClick={() => HandleFavs(item.index)}>
+                        Add to favorite
+                      </button>
                     </Box>
                   </Card>
                 );
               } else {
-                return <div key="item">element not there</div>; 
+                return <div key="item">element not there</div>;
               }
             })}
         </Box>
