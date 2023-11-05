@@ -114,7 +114,6 @@ function Search() {
 
   useEffect(() => {
     FetchSearch();
-    console.log("render");
   }, []);
 
   return (
