@@ -48,8 +48,9 @@ export default function Episodes() {
 
   const HandleFavs = async (index) => {
     try {
-      const { data, error } = await supabase.from("PodCast").update({
-        favourites: Episode[index],
+      const { data, error } = await supabase.from("PodCast")
+      .update({
+        favourites : Episode[index],
       });
 
       if (error) throw error;
@@ -136,7 +137,7 @@ export default function Episodes() {
                           Your browser does not support the audio element.
                         </audio>
                       </CardContent>
-                      <button onClick={() => HandleFavs(item.index)}>
+                      <button onClick={() => HandleFavs(item.index)} style={{margin :'auto'}}>
                         Add to favorite
                       </button>
                     </Box>

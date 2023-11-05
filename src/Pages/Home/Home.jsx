@@ -119,6 +119,7 @@ function Home() {
                     title={item.title}
                     season={item.seasons}
                     update={item.updated}
+                    
                   />
                 );
               } else {
